@@ -1,0 +1,19 @@
+# package.json "files" is the source of truth for what ships.
+# This file exists only to make sure dev artifacts never leak if that list grows.
+test/
+scripts/check-consistency.js
+.github/
+node_modules/
+.env
+*.log
+.DS_Store
+.playwright-mcp/
+.nvmrc
+.editorconfig
+.prettierrc.json
+.prettierignore
+.markdownlint-cli2.jsonc
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SUPPORT.md
+SECURITY.md

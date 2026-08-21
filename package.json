@@ -1,0 +1,86 @@
+{
+  "name": "reddit-radar-mcp",
+  "version": "0.1.0",
+  "description": "MCP server to find Reddit threads where your product genuinely fits, reconstruct the conversation, and gate drafted replies against a claim boundary you define. Read-only: never posts, votes, or automates an account.",
+  "type": "module",
+  "license": "MIT",
+  "author": "sourav2024 (https://github.com/sourav2024)",
+  "homepage": "https://github.com/sourav2024/reddit-radar-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sourav2024/reddit-radar-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sourav2024/reddit-radar-mcp/issues"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./gate": "./src/gate/fact-check.js",
+    "./packs": "./src/gate/packs.js",
+    "./scoring": "./src/scoring/relevance.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "reddit-radar-mcp": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"test/**/*.test.js\"",
+    "test:watch": "node --test --watch \"test/**/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"test/**/*.test.js\"",
+    "smoke": "node scripts/smoke.js",
+    "build": "echo \"No build step — plain ESM, runs directly on Node 20+\" && node --check server.js",
+    "lint": "prettier --check . && markdownlint-cli2",
+    "format": "prettier --write .",
+    "check:consistency": "node scripts/check-consistency.js",
+    "verify": "npm run build && npm run check:consistency && npm test && npm run smoke",
+    "prepublishOnly": "npm run verify"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "modelcontextprotocol",
+    "model-context-protocol",
+    "claude",
+    "claude-code",
+    "reddit",
+    "social-listening",
+    "community",
+    "lead-generation",
+    "content-marketing",
+    "fact-check",
+    "content-gate",
+    "relevance-scoring",
+    "brand-monitoring",
+    "developer-marketing"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "^0.23.1",
+    "prettier": "^3.4.2"
+  },
+  "files": [
+    "server.js",
+    "server.json",
+    "src/",
+    "scripts/smoke.js",
+    "examples/",
+    "docs/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    ".env.example"
+  ]
+}
