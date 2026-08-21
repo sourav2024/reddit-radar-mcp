@@ -80,10 +80,15 @@ async function loadConfig() {
       abs.endsWith('.json') ? { with: { type: 'json' } } : undefined
     );
   } catch (err) {
-    throw new Error(
-      `Could not load config from ${abs}: ${err?.message ?? err}\n` +
-        'A .js config must be ESM with a default export; a .json config must be valid JSON.',
-    );
+    const msg = String(err?.message ?? err);
+    // The commonest real-world failure: a .js config in a project without
+    // "type": "module", where Node parses it as CommonJS and the import throws.
+    const hint = /outside a module|Unexpected token 'export'|Cannot use import statement/i.test(msg)
+      ? '\nThis is an ESM/CommonJS mismatch. Either rename the file to ' +
+        `${path.basename(abs, path.extname(abs))}.mjs, or add "type": "module" ` +
+        'to the nearest package.json.'
+      : '\nA .js config must be ESM with a default export; a .json config must be valid JSON.';
+    throw new Error(`Could not load config from ${abs}: ${msg}${hint}`);
   }
   const config = mod.default ?? mod;
 
