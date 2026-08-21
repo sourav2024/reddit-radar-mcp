@@ -1,6 +1,6 @@
 {
   "name": "reddit-radar-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server to find Reddit threads where your product genuinely fits, reconstruct the conversation, and gate drafted replies against a claim boundary you define. Read-only: never posts, votes, or automates an account.",
   "type": "module",
   "license": "MIT",

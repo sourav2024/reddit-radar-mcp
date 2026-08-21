@@ -40,8 +40,11 @@ This package is built around three claims that came out of running it in product
 
 Write a config:
 
+Name it `.mjs` unless your project already sets `"type": "module"` — otherwise Node parses
+it as CommonJS and the import fails.
+
 ```js
-// radar.config.js
+// radar.config.mjs
 import { defineConfig, packs, composePacks } from 'reddit-radar-mcp';
 
 export default defineConfig({
@@ -80,7 +83,7 @@ Register it as an MCP server:
 
 ```bash
 claude mcp add radar --scope user \
-  -e RADAR_CONFIG=/abs/path/radar.config.js \
+  -e RADAR_CONFIG=/abs/path/radar.config.mjs \
   -- npx reddit-radar-mcp
 ```
 
@@ -254,6 +257,11 @@ Please [report it](https://github.com/sourav2024/reddit-radar-mcp/issues).
 
 **Reddit shows "Prove your humanity".** A cold search can hit a JS challenge. Loading any
 subreddit page first usually clears it for the session.
+
+**"Cannot use import statement outside a module".** Your config is a `.js` file in a
+project without `"type": "module"`, so Node parses it as CommonJS. Either name it
+`radar.config.mjs` or add `"type": "module"` to the nearest `package.json`. A `.json`
+config avoids the question entirely, at the cost of regex literals and `composePacks`.
 
 More in [SUPPORT.md](SUPPORT.md).
 

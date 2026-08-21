@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 _Nothing yet._
 
+## [0.1.1] — 2026-08-21
+
+### Fixed
+
+- **Node 20 ran no tests at all.** `node --test` only accepts glob patterns from v21
+  (unflagged in v22), so on Node 20 the pattern matched nothing and `npm test` exited 1
+  with no output. Since `engines` declares `>=20.10.0`, that had to work. Discovery now
+  happens in `scripts/run-tests.js` — an unquoted shell glob would have fixed Node 20 but
+  broken Windows `cmd.exe`, which does not expand globs. The runner exits non-zero when it
+  finds no tests, so an empty suite cannot masquerade as a passing one.
+
+- **Windows path handling.** Three uses of `new URL(...).pathname` to build filesystem
+  paths, which yields `/D:/...` on Windows and then resolves to `D:\D:\...`. One was in
+  the safety test that scans for write endpoints, so on Windows the read-only invariant was
+  not actually being checked. All now use `fileURLToPath` / `pathToFileURL`.
+
+- **Config load failure now names the fix.** A `.js` config in a project without
+  `"type": "module"` failed with Node's raw CommonJS error. The message now identifies the
+  ESM/CommonJS mismatch and suggests renaming to `.mjs` or setting `"type": "module"`.
+
+All nine CI combinations (Node 20/22/24 across Linux, macOS, Windows) now pass.
+
 ## [0.1.0] — 2026-08-21
 
 First public release.
@@ -93,5 +115,6 @@ First public release.
 - **Threads are scored, never people.** Nothing profiles an author, in line with Reddit's
   prohibition on inferring user characteristics.
 
-[Unreleased]: https://github.com/sourav2024/reddit-radar-mcp/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/sourav2024/reddit-radar-mcp/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/sourav2024/reddit-radar-mcp/releases/tag/v0.1.1
 [0.1.0]: https://github.com/sourav2024/reddit-radar-mcp/releases/tag/v0.1.0
