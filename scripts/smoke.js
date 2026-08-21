@@ -11,7 +11,7 @@
  * Run with: npm run smoke
  */
 import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -19,14 +19,17 @@ import assert from 'node:assert/strict';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PROTOCOL_VERSION = '2025-06-18';
-const TIMEOUT_MS = 20_000;
+// Windows CI runners spawn Node noticeably slower than a dev machine.
+const TIMEOUT_MS = Number(process.env.SMOKE_TIMEOUT_MS ?? (process.platform === 'win32' ? 60_000 : 20_000));
 
 // A throwaway config so the smoke test never depends on a user's real one.
 const dir = mkdtempSync(path.join(tmpdir(), 'radar-smoke-'));
 const configPath = path.join(dir, 'radar.config.js');
 writeFileSync(
   configPath,
-  `import { packs, composePacks } from ${JSON.stringify(path.join(ROOT, 'src/index.js'))};
+  // The import specifier must be a file:// URL, not a bare path: on Windows an absolute
+  // path like "D:\\..." is read as a URL with protocol "d:" and the ESM loader rejects it.
+  `import { packs, composePacks } from ${JSON.stringify(pathToFileURL(path.join(ROOT, 'src/index.js')).href)};
 export default {
   product: { name: 'Acme', what: 'CI observability', claims: ['flaky test detection'] },
   queries: ['flaky tests', 'CI pipeline slow'],
