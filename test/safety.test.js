@@ -10,6 +10,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import { RedditApiClient } from '../src/reddit/client.js';
 import { BrowserRedditClient } from '../src/reddit/browser-client.js';
@@ -49,7 +50,9 @@ async function walk(dir) {
 }
 
 test('no source file issues a Reddit write request', async () => {
-  const root = new URL('../src/', import.meta.url).pathname;
+  // fileURLToPath, not .pathname: on Windows the latter yields "/D:/..." which
+  // then resolves to "D:\D:\...". CI caught this on all three Windows runners.
+  const root = fileURLToPath(new URL('../src/', import.meta.url));
   const offenders = [];
 
   for (const file of await walk(root)) {

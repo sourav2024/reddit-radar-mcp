@@ -10,11 +10,13 @@
  * they'd validate nothing, and parser bugs would only appear once credentials arrived.
  */
 
+import { fileURLToPath } from 'node:url';
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { normalizePost, parseCommentForest, normalizeComment } from './client.js';
 
-const DEFAULT_DIR = new URL('../../fixtures/', import.meta.url).pathname;
+// fileURLToPath, not .pathname: .pathname yields "/D:/..." on Windows.
+const DEFAULT_DIR = fileURLToPath(new URL('../../fixtures/', import.meta.url));
 
 export class FixtureRedditClient {
   constructor({ dir = DEFAULT_DIR } = {}) {
