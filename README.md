@@ -278,6 +278,14 @@ evasion are deliberate non-goals rather than missing features.
 - [Security policy](SECURITY.md)
 - [Support](SUPPORT.md)
 
+## Support this project
+
+If this saves you time, [sponsoring on GitHub](https://github.com/sponsors/sourav2024)
+helps keep it maintained. Entirely optional — the package is MIT and always will be.
+
+Non-financial contributions are just as useful: a bug report with a reproducing config, a
+rule pack that generalizes, or a note about a scoring case that surprised you.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

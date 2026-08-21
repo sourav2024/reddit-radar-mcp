@@ -13,6 +13,10 @@
   "bugs": {
     "url": "https://github.com/sourav2024/reddit-radar-mcp/issues"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/sourav2024"
+  },
   "engines": {
     "node": ">=20.10.0"
   },
