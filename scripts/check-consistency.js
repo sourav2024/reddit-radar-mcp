@@ -55,12 +55,31 @@ try {
   fail('CHANGELOG.md is missing.');
 }
 
+// --- 1b. Funding links must agree ------------------------------------------
+// A sponsor link pointing at the wrong account collects nothing and looks careless.
+// FUNDING.yml is optional, but if present it must match package.json.
+try {
+  const funding = read('.github/FUNDING.yml');
+  const ymlUser = funding.match(/^github:\s*\[?\s*([\w-]+)/m)?.[1];
+  const pkgUser = pkg.funding?.url?.match(/sponsors\/([\w-]+)/)?.[1];
+  if (ymlUser && pkgUser && ymlUser !== pkgUser) {
+    fail(`.github/FUNDING.yml github user "${ymlUser}" != package.json funding url user "${pkgUser}".`);
+  }
+  if (ymlUser && !pkgUser) {
+    fail('.github/FUNDING.yml declares a sponsor but package.json has no funding field.');
+  }
+} catch {
+  // No FUNDING.yml is fine.
+}
+
 // --- 2. Placeholders --------------------------------------------------------
 const PLACEHOLDERS = [
   { token: '<OWNER>', files: ['package.json', 'server.json', 'README.md'],
     fix: 'Replace with the GitHub owner/organization name.' },
   { token: 'YOUR-USERNAME', files: ['package.json', 'server.json', 'README.md', '.github/FUNDING.yml'],
     fix: 'Replace with your GitHub username, or remove the link entirely.' },
+  { token: 'BMC-USERNAME', files: ['package.json', 'README.md', '.github/FUNDING.yml'],
+    fix: 'Replace with your Buy Me a Coffee username, or remove the funding link entirely.' },
   { token: 'TODO:', files: ['README.md', 'server.json'],
     fix: 'Resolve the TODO or remove it before publishing.' },
 ];
