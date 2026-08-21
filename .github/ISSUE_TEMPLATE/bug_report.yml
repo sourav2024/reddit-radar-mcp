@@ -1,0 +1,70 @@
+name: Bug report
+description: Something behaves differently than documented.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please do not paste your full claim boundary or any
+        credentials — redact anything internal before submitting.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, and what happened instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: |
+        A minimal config plus the tool call is ideal. If it involves scoring, the post
+        title and subreddit are usually enough.
+      placeholder: |
+        1. Config with domainTerms: ['ci', 'pipeline']
+        2. Call score_thread with title "..." in r/...
+        3. Expected passed=true, got passed=false
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Relevance scoring
+        - Claim gate (factCheck)
+        - Quality gate (styleCheck)
+        - Sweep / discovery
+        - Thread reconstruction
+        - MCP server / tools
+        - Config validation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      placeholder: "v22.11.0 (from `node -v`)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Run with RADAR_LOG_LEVEL=debug if useful. Credentials are redacted automatically, but check before pasting.
+      render: shell

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
+  "name": "io.github.sourav2024/reddit-radar",
+  "description": "Find Reddit threads where your product genuinely fits, reconstruct the conversation, and gate drafted replies against a claim boundary you define. Read-only: never posts, votes, or automates an account.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/sourav2024/reddit-radar-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/sourav2024/reddit-radar-mcp#readme",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "reddit-radar-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "RADAR_CONFIG",
+          "description": "Absolute path to your radar config (.js with a default export, or .json). Defines your product, search queries, domain vocabulary, subreddit tiers, and claim-gate rules. Required — the server exits with guidance if unset.",
+          "isRequired": true
+        },
+        {
+          "name": "REDDIT_MODE",
+          "description": "Which Reddit adapter to use: browser (default, reads public pages via your agent's own browser tool, no credentials), live (official OAuth Data API, requires approved credentials), or fixture (local JSON, for tests).",
+          "isRequired": false,
+          "default": "browser"
+        },
+        {
+          "name": "REDDIT_CLIENT_ID",
+          "description": "Reddit app client ID. Only used when REDDIT_MODE=live.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "REDDIT_CLIENT_SECRET",
+          "description": "Reddit app client secret. Only used when REDDIT_MODE=live.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "REDDIT_USER_AGENT",
+          "description": "Reddit-required User-Agent in the form <platform>:<appid>:<version> (by /u/<username>). Only used when REDDIT_MODE=live.",
+          "isRequired": false
+        },
+        {
+          "name": "REDDIT_QPM",
+          "description": "Rate limit in queries per minute for live mode (1-100). Defaults to 60 rather than Reddit's advertised 100, since the sustainable rate is lower once burst and reset behaviour are accounted for.",
+          "isRequired": false,
+          "default": "60"
+        },
+        {
+          "name": "RADAR_FIXTURES",
+          "description": "Directory of Reddit wire-format JSON fixtures. Only used when REDDIT_MODE=fixture.",
+          "isRequired": false
+        },
+        {
+          "name": "RADAR_LOG_LEVEL",
+          "description": "Log verbosity: silent, error, warn, info (default), or debug. Logs go to stderr only, so they never corrupt the JSON-RPC stream on stdout.",
+          "isRequired": false,
+          "default": "info"
+        },
+        {
+          "name": "RADAR_LOG_FORMAT",
+          "description": "Log shape: json (default, one object per line) or text (human-readable).",
+          "isRequired": false,
+          "default": "json"
+        }
+      ]
+    }
+  ]
+}

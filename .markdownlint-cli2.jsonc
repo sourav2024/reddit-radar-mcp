@@ -1,0 +1,16 @@
+{
+  "config": {
+    // Long prose lines are fine; the content is meant to be read, not diffed by column.
+    "MD013": false,
+    // Duplicate headings are legitimate in a changelog (Added under each version).
+    "MD024": { "siblings_only": true },
+    // Inline HTML is used sparingly in the README for layout.
+    "MD033": false,
+    // Bare URLs appear in config examples.
+    "MD034": false,
+    // First line need not be a top-level heading in issue templates.
+    "MD041": false
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", "CHANGELOG.md"]
+}
