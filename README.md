@@ -297,3 +297,7 @@ rule pack that generalizes, or a note about a scoring case that surprised you.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Design notes
+
+Architecture diagram, request flow, design trade-offs and known limitations: [docs/DESIGN-NOTES.md](docs/DESIGN-NOTES.md).
